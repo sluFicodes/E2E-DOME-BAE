@@ -146,7 +146,7 @@ cd ..
 
 cd api
 export TM_VERSION
-docker compose up -d --quiet-pull
+docker compose up -d > /dev/null 2>&1
 echo -e "\033[35mtmforum api deployed\033[0m"
 cd ..
 
