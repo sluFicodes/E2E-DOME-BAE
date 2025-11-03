@@ -12,6 +12,9 @@ charging-docker/charging-data/
 frontend.log
 frontend.pid
 
+# Environment variables
+.env_keys
+
 # Node modules
 node_modules/
 

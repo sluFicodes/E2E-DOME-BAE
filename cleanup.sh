@@ -1,5 +1,9 @@
 #!/bin/bash
 
+source .env_keys
+
+echo $OIDC_KEY
+
 echo -e "\033[35mResetting all services (down + volumes + up)...\033[0m"
 
 # Stop and remove all containers with volumes

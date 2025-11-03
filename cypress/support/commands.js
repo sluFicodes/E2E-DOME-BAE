@@ -16,9 +16,14 @@ Cypress.Commands.add('loginAsAdmin', () => {
     cy.get('button[type="submit"]').click()
 
     // Check if Authorize button appears and click it if it does
-    cy.get('body').then($body => {
-      if ($body.find('button:contains("Authorize")').length > 0) {
-        cy.contains('button', 'Authorize').click()
+    cy.wait(500)
+    cy.location('origin').then((origin) => {
+      if (origin === 'http://idm.docker:3000') {
+        cy.get('body').then($body => {
+          if ($body.text().includes('Authorize')) {
+            cy.contains('button', 'Authorize').click()
+          }
+        })
       }
     })
   })

@@ -408,6 +408,11 @@ if [ ! -d "node_modules" ]; then
     npm install || { echo -e "npm install failed."; exit 1; }
 fi
 echo -e "\033[35mstarting frontend dev server...\033[0m"
+if [ -f "../frontend.pid" ]; then
+    OLD_PID=$(cat ../frontend.pid)
+    echo -e "\033[35mkilling old frontend process (PID: $OLD_PID)...\033[0m"
+    kill -9 $OLD_PID 2>/dev/null || true
+fi
 nohup npm run start > ../frontend.log 2>&1 &
 FRONTEND_PID=$!
 echo $FRONTEND_PID > ../frontend.pid
@@ -426,6 +431,14 @@ wait_server http://localhost:3000/api/product-providers/payment-gateways/count b
 
 echo -e "\033[35mBUILD FINISHED\033[0m"
 
+# Save key environment variables
+cat > .env_keys <<EOF
+export CLIENT_ID=$CLIENT_ID
+export CLIENT_SECRET=$CLIENT_SECRET
+export OIDC_KEY=$OIDC_KEY
+EOF
+
+echo -e "\033[35mEnvironment variables saved. Run: source .env_keys\033[0m"
 
 # 5. run system test
 echo -e "\033[35mrunning system test\033[0m"

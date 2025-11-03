@@ -139,12 +139,12 @@ describe('Happy Journey E2E', {
       phoneNumber: "600123456"
     })
 
-    cy.intercept('POST', '**/ordering/productOrder').as('createOrder')
+    cy.intercept('POST', 'http://proxy.docker:8004/ordering/productOrder').as('createOrder')
     cy.wait(2000)
     cy.getBySel('checkout').click()
     cy.wait('@createOrder')
     cy.visit('http://localhost:4201/checkin')
-    cy.wait(2000)
+    cy.getBySel('ordersTable', { timeout: 10000 }).should('be.visible')
     cy.getBySel('ordersTable').contains('completed')
     cy.getBySel('invoices').click()
     cy.getBySel('invoiceRow').should('have.length', 1).within(()=>{
