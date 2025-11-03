@@ -13,6 +13,7 @@ services:
         image: proxy-system-dev
         extra_hosts:
             - "proxy.docker:127.0.0.1"
+            - "host.docker.internal:host-gateway"
 
         links:
             - mongo

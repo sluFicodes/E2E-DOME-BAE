@@ -12,7 +12,7 @@ services:
     charging:
         image: charging-system-dev
         extra_hosts:
-            - "host.docker.internal:172.17.0.1"
+            - "host.docker.internal:host-gateway"
             - "proxy.docker:127.0.0.1"
 
         links:
