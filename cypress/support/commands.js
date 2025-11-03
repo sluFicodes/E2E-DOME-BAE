@@ -14,6 +14,13 @@ Cypress.Commands.add('loginAsAdmin', () => {
     cy.get('input[name="email"]').type(email)
     cy.get('input[name="password"]').type(password)
     cy.get('button[type="submit"]').click()
+
+    // Check if Authorize button appears and click it if it does
+    cy.get('body').then($body => {
+      if ($body.find('button:contains("Authorize")').length > 0) {
+        cy.contains('button', 'Authorize').click()
+      }
+    })
   })
 
   // Wait for redirect back to frontend
