@@ -38,6 +38,7 @@ clone_frontend () {
 }
 
 wait_server() {
+set +e  # Disable exit on error for this function
 URL=$1
 TIMEOUT=600
 INTERVAL=5
@@ -54,11 +55,13 @@ while true; do
     SECONDS_WAITED=$((SECONDS_WAITED + INTERVAL))
     if [ $SECONDS_WAITED -ge $TIMEOUT ]; then
         echo -e "\033[31mTimeout error: waited $TIMEOUT seconds.\033[0m"
+        set -e  # Re-enable exit on error
         exit 1
     fi
 done
 
-echo -e "\033[35m$2 ready in $SECOND_WAITED seconds\033[0m"
+echo -e "\033[35m$2 ready in $SECONDS_WAITED seconds\033[0m"
+set -e  # Re-enable exit on error
 }
 echo "git token: $GIT_TOKEN"
 echo "test: $ERT"
