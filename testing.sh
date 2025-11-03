@@ -119,7 +119,7 @@ cd ..
 
 cd api
 export TM_VERSION
-docker compose up -d > /dev/null
+docker compose up -d > /dev/null 2>&1
 echo -e "\033[35mtmforum api deployed\033[0m"
 cd ..
 
@@ -394,9 +394,7 @@ echo -e "\033[35mBUILD FINISHED\033[0m"
 
 # 5. run system test
 echo -e "\033[35mrunning system test\033[0m"
-cd src
-# python3 system_testing.py || { echo -e "system tests failed."; exit 1; }
-cd ..
+npx cypress run --e2e --headless defaultCommandTimeout=10000 || { echo -e "system tests failed."; exit 1; }
 echo -e "\033[35msystem tests passed\033[0m"
 # 6. docker down
 
