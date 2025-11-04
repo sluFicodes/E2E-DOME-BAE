@@ -17,6 +17,8 @@ describe('Happy Journey E2E', {
   beforeEach(() => {
     cy.loginAsAdmin()
     cy.on('uncaught:exception', (err) => {
+      // Log all errors to help debug
+      console.error('Uncaught exception:', err.message)
       // Ignore cross-origin errors from proxy.docker
       if (err.message.includes("Unexpected token '<'")) {
         return false
@@ -30,6 +32,7 @@ describe('Happy Journey E2E', {
     const offeringName = HAPPY_JOURNEY.offering.name()
 
     cy.intercept('POST', '**/ordering/productOrder').as('createOrder')
+    cy.intercept('POST', '**/account/billingAccount').as('saveBilling')
 
     // ============================================
     // Step 1: Create Catalog
@@ -142,8 +145,8 @@ describe('Happy Journey E2E', {
       phoneNumber: "600123456"
     })
 
-    cy.wait(2000)
-    cy.getBySel('checkout').click()
+    cy.wait('@saveBilling')
+    cy.getBySel('checkout').should('not.be.disabled').click()
     cy.wait('@createOrder')
     cy.visit('http://localhost:4201/checkin')
     cy.getBySel('ordersTable', { timeout: 10000 }).should('be.visible')
