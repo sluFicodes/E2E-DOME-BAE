@@ -128,6 +128,8 @@ describe('Happy Journey E2E', {
     // Step 9: create billing address
     // ============================================
 
+    cy.intercept('POST', 'http://proxy.docker:8004/ordering/productOrder').as('createOrder')
+
     createCheckoutBilling({
       title: "billing 1",
       country: "ES",
@@ -139,7 +141,6 @@ describe('Happy Journey E2E', {
       phoneNumber: "600123456"
     })
 
-    cy.intercept('POST', 'http://proxy.docker:8004/ordering/productOrder').as('createOrder')
     cy.wait(2000)
     cy.getBySel('checkout').click()
     cy.wait('@createOrder')
