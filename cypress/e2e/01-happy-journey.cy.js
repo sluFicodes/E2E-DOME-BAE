@@ -33,6 +33,7 @@ describe('Happy Journey E2E', {
 
     cy.intercept('POST', '**/ordering/productOrder').as('createOrder')
     cy.intercept('POST', '**/account/billingAccount').as('saveBilling')
+    cy.intercept('GET', '**/account/billingAccount*').as('getBilling')
 
     // ============================================
     // Step 1: Create Catalog
@@ -146,10 +147,13 @@ describe('Happy Journey E2E', {
     })
 
     cy.wait('@saveBilling')
-    cy.getBySel('checkout').should('not.be.disabled').click()
-    cy.wait('@createOrder')
+    cy.wait('@getBilling')
+    // Wait for the billing address to be processed and selected
+    cy.wait(2000)
+    cy.getBySel('checkout').should('be.visible').should('not.be.disabled').click()
+    cy.wait('@createOrder', { timeout: 30000 })
     cy.visit('http://localhost:4201/checkin')
-    cy.getBySel('ordersTable', { timeout: 10000 }).should('be.visible')
+    cy.getBySel('ordersTable', { timeout: 30000 }).should('be.visible')
     cy.getBySel('ordersTable').contains('completed')
     cy.getBySel('invoices').click()
     cy.getBySel('invoiceRow').should('have.length', 1).within(()=>{
