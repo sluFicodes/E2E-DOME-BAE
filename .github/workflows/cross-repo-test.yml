@@ -1,5 +1,5 @@
 name: Cross-Repo System Test
-
+# version: 2.0
 on:
   repository_dispatch:
     types:
