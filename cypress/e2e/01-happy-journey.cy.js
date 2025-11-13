@@ -6,7 +6,11 @@ const {
   updateProductSpecStatus,
   createOffering,
   updateOffering,
-  createCheckoutBilling
+  createCheckoutBilling,
+  createResourceSpec,
+  createServiceSpec,
+  updateResourceSpecStatus,
+  updateServiceSpecStatus
 } = require('../support/form-helpers')
 
 describe('Happy Journey E2E', {
@@ -50,12 +54,21 @@ describe('Happy Journey E2E', {
     updateCatalogStatus({ name: catalogName, status: 'launched'})
 
     // ============================================
-    // Step 3: Create Product Specification
+    // Step 3: Create product, resource, service specification; Link resource/service spec to product spec
     // ============================================
+
+    createServiceSpec(HAPPY_JOURNEY.serviceSpec)
+    updateServiceSpecStatus({name: HAPPY_JOURNEY.serviceSpec.name, status: 'launched'})
+
+    createResourceSpec(HAPPY_JOURNEY.resourceSpec)
+    updateResourceSpecStatus({name: HAPPY_JOURNEY.resourceSpec.name, status: 'launched'})
+
     createProductSpec({
       name: productSpecName,
       brand: HAPPY_JOURNEY.productSpec.brand,
-      productNumber: HAPPY_JOURNEY.productSpec.productNumber
+      productNumber: HAPPY_JOURNEY.productSpec.productNumber,
+      serviceSpecName: HAPPY_JOURNEY.serviceSpec.name,
+      resourceSpecName: HAPPY_JOURNEY.resourceSpec.name
     })
 
     // ============================================
@@ -155,6 +168,11 @@ describe('Happy Journey E2E', {
     cy.wait('@createOrder', { timeout: 60000 })
     cy.wait('@getOrders')
     cy.visit('http://localhost:4201/checkin')
+
+    // ============================================
+    // Step 10: Verify Customer Bill was created
+    // ============================================
+
     cy.getBySel('ordersTable', { timeout: 60000 }).should('be.visible')
     cy.getBySel('ordersTable').contains('completed')
     cy.getBySel('invoices').click()
@@ -163,8 +181,31 @@ describe('Happy Journey E2E', {
       cy.get('button').should('have.length.greaterThan', 0).first().click()
     })
     cy.getBySel('invoiceDetail').contains('INITIAL PAYMENT')
+
+    // ============================================
+    // Step 11: Verify Product Inventory
+    // ============================================
+
     cy.visit('/product-inventory')
     cy.getBySel('productInventory').contains('[data-cy="productInventory"]', offeringName).contains('active')
+
+    // ============================================
+    // Step 12: Verify service Inventory
+    // ============================================
+    cy.getBySel('inventoryServices').click()
+
+    // Verify service spec appears
+    cy.wait(2000)
+    cy.contains(HAPPY_JOURNEY.serviceSpec.name).should('be.visible')
+
+    // ============================================
+    // Step 13: Verify resources Inventory
+    // ============================================
+    cy.getBySel('inventoryResources').click()
+
+    // Verify resource spec appears
+    cy.wait(2000)
+    cy.contains(HAPPY_JOURNEY.resourceSpec.name).should('be.visible')
 
   })
 })

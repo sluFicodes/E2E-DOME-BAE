@@ -13,6 +13,46 @@ const HAPPY_JOURNEY = {
     brand: 'E2E Test Brand',
     productNumber: '12345'
   },
+  serviceSpec: {
+      name: `E2E Service Spec Shared`,
+      description: 'Test service specification with characteristics',
+      characteristics: [
+        {
+          name: 'API Protocol',
+          description: 'Supported API protocols',
+          type: 'string',
+          values: ['REST', 'GraphQL', 'gRPC']
+        },
+        {
+          name: 'Max Requests',
+          description: 'Maximum requests per minute',
+          type: 'number',
+          values: [
+            { value: 1000, unit: 'req/min' },
+            { value: 5000, unit: 'req/min' },
+            { value: 10000, unit: 'req/min' }
+          ]
+        }
+      ]
+    },
+    resourceSpec: {
+      name: `E2E Resource Spec`,
+      description: 'Test resource specification with characteristics',
+      characteristics: [
+        {
+          name: 'Storage Type',
+          description: 'Type of storage',
+          type: 'string',
+          values: ['SSD', 'H∫DD', 'NVMe']
+        },
+        {
+          name: 'Storage Capacity',
+          description: 'Storage capacity range',
+          type: 'range',
+          values: { from: 100, to: 5000, unit: 'GB' }
+        }
+      ]
+    },
   offering: {
     name: 'E2E Offering Automatic',
     description: 'E2E Test Offering for Happy Journey',
