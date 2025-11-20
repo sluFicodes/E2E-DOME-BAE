@@ -11,7 +11,7 @@ describe('Manual Offering E2E', {
 }, () => {
 
   beforeEach(() => {
-    cy.request({url: 'http://localhostl:4201/clear', method: 'POST'}).then(
+    cy.request({url: 'http://localhost:4201/clear', method: 'POST'}).then(
       (response) => {
         expect(response.status).to.eq(200)
       }
@@ -319,7 +319,9 @@ describe('Payment Automatic with Manual Procurement E2E', {
     // ============================================
     // Step 6: Verify order is in inProgress state (payment done, waiting for manual procurement)
     // ============================================
+    cy.intercept('**/charging/api/orderManagement/orders/confirm/').as('checkin')
     cy.visit('http://localhost:4201/checkin')
+    cy.wait('@checkin', { timeout: 60000 })
     cy.getBySel('ordersTable', { timeout: 60000 }).should('be.visible')
 
     // For manual procurement, get the most recent order (first row in tbody)

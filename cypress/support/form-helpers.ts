@@ -339,18 +339,24 @@ export function clickLoadMoreUntilGone(maxClicks = 10, offering: boolean = false
     cy.intercept('**/catalog/productOffering?*').as('offeringList')
   }
   cy.wait(3000)
-  const clickIfExists = (remainingClicks: number): void => {
+  const clickIfExists = (remainingClicks: number, retries = 5): void => {
     if (remainingClicks === 0) return
-    cy.wait(1000)
-    cy.get('body').then(() => {
-      if (cy.$$("button[data-cy=loadMore]").length > 0) {
-        cy.getBySel('loadMore').click()
-        if (offering){
-          cy.wait('@offeringList') // wait until the next request is processed
+
+    cy.wait(500)
+    cy.get('body').then($body => {
+      const $btn = $body.find('[data-cy="loadMore"]:visible')
+      if ($btn.length > 0) {
+        cy.wrap($btn).click()
+        if (offering) {
+          cy.wait('@offeringList')
         }
         cy.wait(2000)
         clickIfExists(remainingClicks - 1)
+      } else if (retries > 0) {
+        // Retry: button might still be loading
+        clickIfExists(remainingClicks, retries - 1)
       }
+      // No button after all retries = done
     })
   }
   clickIfExists(maxClicks)

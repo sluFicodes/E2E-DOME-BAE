@@ -50,9 +50,9 @@ describe('Check order global states',  {
       cy.visit('/')
       cy.changeSessionTo('BUYER ORG')
       // complete auto offering
+      cy.intercept('**/charging/api/orderManagement/orders/confirm/').as('checkin')
       cy.visit('http://localhost:4201/checkin')
 
-      cy.intercept('**/charging/api/orderManagement/orders/confirm/').as('checkin')
       cy.wait('@checkin', { timeout: 60000 })
 
       cy.changeSessionTo('SELLER ORG')
@@ -109,9 +109,9 @@ describe('Check order global states',  {
       // complete auto offering
       cy.visit('/')
       cy.changeSessionTo('BUYER ORG')
+      cy.intercept('**/charging/api/orderManagement/orders/confirm/').as('checkin')
       cy.visit('http://localhost:4201/checkin')
 
-      cy.intercept('**/charging/api/orderManagement/orders/confirm/').as('checkin')
       cy.wait('@checkin', { timeout: 60000 })
 
       cy.changeSessionTo('SELLER ORG')
