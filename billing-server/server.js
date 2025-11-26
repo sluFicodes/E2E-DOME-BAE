@@ -45,6 +45,12 @@ app.get('/checkin', (req, res) => {
   res.redirect(successURL + '&token=' + bearerToken)
 })
 
+app.get('/bad-checkin', (req, res) => {
+  const cancelURL = cancelURLStack.shift()
+  console.log('received cancel ', cancelURL)
+  res.redirect(cancelURL + '&token=' + bearerToken)
+})
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Billing server running on http://0.0.0.0:${PORT}`);
   console.log('billing server mock v1.5')

@@ -201,9 +201,10 @@ export function setupGlobalStateBeforeEach(params: GlobalStateSetupParams & { au
   cy.getBySel('orderItems').contains('tr', semiName).contains(/inprogress/i)
   switch (nTest){
     case 1:
-    case 6:
     case 2:
+    case 3:
     case 4:
+    case 6:
       cy.getBySel('orderItems').contains('tr', manualName).contains( /unchecked/i)
       if (nTest === 1) break
 
@@ -229,9 +230,12 @@ export function setupGlobalStateBeforeEach(params: GlobalStateSetupParams & { au
         cy.getBySel('viewOrderDetails').click()
       })
       if (nTest === 2) break
-      
+      let orderAction = 'completeOrder'
+      if (nTest === 3){
+        orderAction = 'failOrder'
+      }
       cy.getBySel('orderItems').contains('tr', manualName).within(() => {
-        cy.getBySel('completeOrder').click()
+        cy.getBySel(orderAction).click()
       })
       cy.getBySel('confirmActionBtn').click()
       cy.wait(2000)
@@ -240,10 +244,17 @@ export function setupGlobalStateBeforeEach(params: GlobalStateSetupParams & { au
         cy.getBySel('viewOrderDetails').click()
       })
       break
-    case -1:
+    case 5:
       cy.getBySel('orderItems').contains('tr', manualName).contains( /unchecked/i)
-      // cancel order
-    case -2:
+      cy.getBySel('orderItems').contains('tr', manualName).within(() => {
+        cy.getBySel('rejectOrder').click()
+      })
+      cy.getBySel('confirmActionBtn').click()
+      cy.wait(2000)
+      cy.getBySel('ordersTable').find('tbody tr').first().within(() => {
+        cy.contains(/inprogress/i)
+        cy.getBySel('viewOrderDetails').click()
+      })
     default:
       break
   }
