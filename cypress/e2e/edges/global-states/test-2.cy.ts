@@ -281,7 +281,7 @@ describe('Check order global states - Reverse test (auto and semi failed, iterat
       cy.getBySel('orderItems').contains('tr', manualName).contains(/failed/i)
     })
 
-    it('should show partial global state when auto and semi are failed and manual is rejected', () => {
+    it('should show partial global state when auto and semi are failed and manual is cancelled', () => {
       // Reject manual
       cy.getBySel('orderItems').contains('tr', manualName).within(() => {
         cy.getBySel('rejectOrder').click()
