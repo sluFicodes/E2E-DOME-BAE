@@ -4,16 +4,6 @@ Automated E2E testing system for the DOME ecosystem.
 
 ## Usage
 
-### You can integrate the tests in your CI/CD
-From your forked BAE-Frontend you can send a PR to the original repo (Ficodes/BAE-Frontend) with the following data
-```txt
-SYSTEM_TESTING: ACTIVATE [needed to activate the workflow]
-PROXY: https://github.com/FIWARE-TMForum/business-ecosystem-logic-proxy/tree/develop [This line is optional; default it will take master branch]
-CHARGING: https://github.com/FIWARE-TMForum/business-ecosystem-charging-backend/tree/develop [This line is optional; default it will take master branch]
-TM_VERSION: 1.3.18
-```
-It is going to test your current Pull requested front repo@branch with the repo@branch of proxy and charging (optional) and tmforum api that you previously chose
-
 ### Run system tests
 
 To deploy the complete system and run the tests:
@@ -57,6 +47,29 @@ To execute the cypress tests with a graphic interface after the system is alread
 ```bash
 npx cypress open --e2e
 ```
+
+### You can integrate the tests in your CI/CD
+From your forked BAE-Frontend you can send a PR to the original repo (Ficodes/BAE-Frontend) with the following data
+This is the minimal text you need to trigger the system testing workflow
+```txt
+```txt
+SYSTEM_TESTING: ACTIVATE
+TM_VERSION: 1.3.18
+```
+And this is for custom testing
+```
+```txt
+SYSTEM_TESTING: ACTIVATE [needed to activate the workflow]
+PROXY: https://github.com/FIWARE-TMForum/business-ecosystem-logic-proxy/tree/develop [This line is optional; default it will take master branch]
+CHARGING: https://github.com/FIWARE-TMForum/business-ecosystem-charging-backend/tree/develop [This line is optional; default it will take master branch]
+TM_VERSION: 1.3.18
+```
+SYSTEM_TESTING: [needed to activate the workflow]
+PROXY: [This line is optional; default it will take master branch]
+CHARGING: [This line is optional; default it will take master branch]
+TM_VERSION: Mandatory to se the tmforum api version
+
+It is going to test your current Pull requested front repo@branch with the repo@branch of proxy and charging (optional) and tmforum api that you previously chose
 
 ## Requirements
 
