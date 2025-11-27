@@ -58,12 +58,10 @@ npx cypress open --e2e
 From your forked BAE-Frontend you can send a PR to the original repo (Ficodes/BAE-Frontend) with the following data
 This is the minimal text you need to trigger the system testing workflow
 ```txt
-```txt
 SYSTEM_TESTING: ACTIVATE
 TM_VERSION: 1.3.18
 ```
 And this is for custom testing
-```
 ```txt
 SYSTEM_TESTING: ACTIVATE [needed to activate the workflow]
 PROXY: https://github.com/FIWARE-TMForum/business-ecosystem-logic-proxy/tree/develop [This line is optional; default it will take master branch]
