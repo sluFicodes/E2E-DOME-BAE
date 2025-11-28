@@ -1,5 +1,16 @@
 # E2E-DOME-BAE
 
+## Table of Contents
+
+- [Testing Strategy: Configuration-Driven Shared State](#testing-strategy-configuration-driven-shared-state)
+  - [Workflow Explanation](#workflow-explanation)
+- [Usage](#usage)
+  - [Run system tests](#run-system-tests)
+  - [Clean and restart](#clean-and-restart)
+  - [Tests with UI](#execute-tests-manually-with-ui)
+  - [CI/CD](#you-can-integrate-the-tests-in-your-cicd)
+- [Requirements](#requirements)
+
 ## Testing Strategy: Configuration-Driven Shared State
 
 This project uses an optimized End-to-End (E2E) testing strategy with Playwright, designed to minimize execution time and avoid redundant data creation.
