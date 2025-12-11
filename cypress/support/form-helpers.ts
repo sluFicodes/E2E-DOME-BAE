@@ -227,7 +227,7 @@ export function createProductSpec({ name, version = '0.1', brand, productNumber,
   }
   cy.getBySel('btnNext').click() // Go to Attachments step
   cy.getBySel('btnNext').click() // Go to Relationships step
-  cy.getBySel('btnFinish').click() // Finish creation, view spec summary
+  cy.getBySel('btnNext').click() // Finish creation, view spec summary
 
   // Create product spec
   cy.getBySel('btnCreateProduct').should('be.enabled').click()
@@ -257,7 +257,7 @@ export function updateProductSpecStatus({ name, status }: UpdateProductSpecStatu
   cy.getBySel('btnNext').click() // Resource step
   cy.getBySel('btnNext').click() // Service step
   cy.getBySel('btnNext').click() // Attachments step
-  cy.getBySel('btnFinish').click() // Relationships step
+  cy.getBySel('btnNext').click() // Relationships step
 
   cy.getBySel('productSpecUpdate').click()
 
@@ -438,7 +438,7 @@ export function createServiceSpec({ name, description, characteristics = [] }: S
   // Step 1: General info
   cy.getBySel('servSpecName').should('be.visible').type(name)
   cy.getBySel('servSpecDescription').should('be.visible').type(description)
-  cy.getBySel('servSpecNextGeneral').click()
+  cy.getBySel('servSpecNext').click()
 
   // Step 2: Characteristics
   if (characteristics.length > 0) {
@@ -477,7 +477,7 @@ export function createServiceSpec({ name, description, characteristics = [] }: S
   }
 
   // Go to next step
-  cy.getBySel('servSpecNextChars').click()
+  cy.getBySel('servSpecNext').click()
 
   // Step 3: Finish
   cy.getBySel('servSpecFinish').should('be.enabled').click()
@@ -501,7 +501,7 @@ export function createResourceSpec({ name, description, characteristics = [] }: 
   // Step 1: General info
   cy.getBySel('resSpecName').should('be.visible').type(name)
   cy.getBySel('resSpecDescription').should('be.visible').type(description)
-  cy.getBySel('resSpecNextGeneral').click()
+  cy.getBySel('resSpecNext').click()
 
   // Step 2: Characteristics
   if (characteristics.length > 0) {
@@ -540,7 +540,7 @@ export function createResourceSpec({ name, description, characteristics = [] }: 
   }
 
   // Go to next step
-  cy.getBySel('resSpecNextChars').click()
+  cy.getBySel('resSpecNext').click()
 
   // Step 3: Finish
   cy.getBySel('resSpecFinish').should('be.enabled').click()
@@ -564,8 +564,8 @@ export function updateResourceSpecStatus({ name, status }: UpdateResourceSpecSta
   }
 
   // Navigate through steps to reach update button
-  cy.getBySel('resSpecUpdateNextGeneral').click() // Go to Characteristics step
-  cy.getBySel('resSpecUpdateNextChars').click() // Go to Summary step
+  cy.getBySel('resSpecUpdateNext').click() // Go to Characteristics step
+  cy.getBySel('resSpecUpdateNext').click() // Go to Summary step
 
   cy.getBySel('resourceSpecUpdate').click()
 
@@ -584,8 +584,8 @@ export function updateServiceSpecStatus({ name, status }: UpdateServiceSpecStatu
   }
 
   // Navigate through steps to reach update button
-  cy.getBySel('servSpecUpdateNextGeneral').click() // Go to Characteristics step
-  cy.getBySel('servSpecUpdateNextChars').click() // Go to Summary step
+  cy.getBySel('servSpecUpdateNext').click() // Go to Characteristics step
+  cy.getBySel('servSpecUpdateNext').click() // Go to Summary step
 
   cy.getBySel('serviceSpecUpdate').click()
 
